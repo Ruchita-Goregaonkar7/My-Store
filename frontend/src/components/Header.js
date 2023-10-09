@@ -18,7 +18,8 @@ const Header = () =>{
             w='100%'
             pos='fixed'
             top='0'
-            left='0'>
+            left='0'
+            zIndex='9999'>
             <Link as={RouterLink} to='/'>
                 <Heading
                     as='h1'
