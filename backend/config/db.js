@@ -4,10 +4,10 @@ const connectDB = async () => {
     try {
         const conn = await
         mongoose.connect(process.env.MONGO_URI);
-        console.log(`MongoDB connected: ${conn.connection.host}`);
+        console.log(`MongoDB connected: ${conn.connection.host}`.cyan.bold.underline);
     } catch (err){
-        console.log("Err kahitari",err)
-        console.error(`Error: ${err.message}`);
+       
+        console.error(`Error: ${err.message}`.red.bold.underline);
         process.exit(1);
     }
 };
