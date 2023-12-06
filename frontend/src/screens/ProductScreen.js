@@ -1,23 +1,24 @@
 import { Button, Flex, Grid, Heading, Image, Text} from "@chakra-ui/react";
-import Rating from "../components/Rating";
-import axios from 'axios';
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import {Link as RouterLink, useParams} from 'react-router-dom';
+import { listProductDetails } from "../actions/productAction";
+import Loader from "../components/Loader";
+import Message from "../components/Message";
+import Rating from "../components/Rating";
 
 const ProductScreen = () => {
+    const dispatch =useDispatch();
     const {id} = useParams();
-    const [product, setProduct] = useState ({});
+    
+    const productDetails = useSelector((state)=> state.productDetails);
+    const {loading, error, product} = productDetails;
     
     useEffect(()=>{
-        const fetchProduct = async() => {
-            const {data} = await axios.get(`/api/products/${id}`);
-            setProduct(data);
-        };
-        fetchProduct(); 
-    }, [id]);
-
+            dispatch(listProductDetails(id))
+    }, [id, dispatch]);
     
-    return(
+    return (
         <>
             <Flex mb='5'>
                 <Button as={RouterLink} to='/' colorScheme='gray'>
@@ -25,6 +26,11 @@ const ProductScreen = () => {
                 </Button>
             </Flex>
 
+            {loading ? (
+                <Loader/>
+            ) : error ? (
+                <Message type='error'>{error}</Message>
+            ) : (
             <Grid templateColumns='5fr 4fr 3fr' gap='10'>
                 {/* {Column 1} */}
                 <Image src={product.image} alt={product.name} borderRadius='md' />
@@ -39,7 +45,7 @@ const ProductScreen = () => {
                     <Rating
                         value={product.rating}
                         color='yellow.500'
-                        text={'${product.numReviews} reviews'}
+                        text={`${product.numReviews} reviews`}
                     />
                     <Heading 
                         as='h5'
@@ -75,6 +81,7 @@ const ProductScreen = () => {
                     </Button>
                 </Flex>
             </Grid>
+            )}
         </>
     );
 };
