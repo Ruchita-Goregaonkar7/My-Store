@@ -2,7 +2,7 @@ import { Button, Flex, Grid, Heading, Image, Select, Text} from "@chakra-ui/reac
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {Link as RouterLink, useNavigate, useParams} from 'react-router-dom';
-import { listProductDetails } from "../actions/productAction";
+import { listProductDetails } from "../actions/productActions";
 import Loader from "../components/Loader";
 import Message from "../components/Message";
 import Rating from "../components/Rating";
